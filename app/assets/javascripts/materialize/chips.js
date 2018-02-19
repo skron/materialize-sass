@@ -170,6 +170,7 @@
           e.preventDefault();
           self.addChip({ tag: $target.val() }, $chips);
           $target.val('');
+          $('#add-tag').remove();
           return;
         }
 
@@ -178,8 +179,34 @@
           e.preventDefault();
           self.selectChip(chipsLength - 1, $chips);
           $target.blur();
+          $('#add-tag').remove();
           return;
         }
+      });
+
+      // Fix for mobile devices with next button instead of go button
+      self.$document.off('keyup.chips-add', SELS.CHIPS + ' ' + SELS.INPUT).on('keyup.chips-add', SELS.CHIPS + ' ' + SELS.INPUT, function (e) {
+        var $target = $(e.target);
+        var $chips = $target.closest(SELS.CHIPS);
+        var chipsLength = $chips.children(SELS.CHIP).length;
+
+        if (!$(this).next().hasClass('add-tag')) {
+          $(this).after("<span id='add-tag' class='add-tag'>add tag</span>");
+        }
+
+        if ($(this).next().hasClass('add-tag') && $target.val().length == 0) {
+          $(this).next('span').remove();
+        }
+
+        // add tag button
+        $('#add-tag').click(function() {
+          e.preventDefault();
+          self.addChip({ tag: $target.val() }, $chips);
+          $target.val('');
+          $target.focus();
+          $(this).remove();
+          return;
+        });
       });
 
       // Click on delete icon in chip.
