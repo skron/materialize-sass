@@ -191,7 +191,7 @@
         var chipsLength = $chips.children(SELS.CHIP).length;
 
         if (!$(this).next().hasClass('add-tag')) {
-          $(this).after("<span id='add-tag' class='add-tag'>add tag</span>");
+          $(this).after("<span id='add-tag' class='add-tag'>tag</span>");
         }
 
         if ($(this).next().hasClass('add-tag') && $target.val().length == 0) {
